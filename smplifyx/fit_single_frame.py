@@ -263,7 +263,7 @@ def fit_single_frame(img,
         with torch.no_grad():
             vposer_rendered_img_save_path = os.path.join(curr_img_folder,
                                                          '{}_prior_pose.png'.format(img_name))
-            bm = BodyModel(smplx_path).to('cuda') if use_cuda else BodyModel(bm_path=smplx_path)
+            bm = BodyModel(bm_fname=smplx_path).to('cuda')
             if use_vposer:
                 body_pose = vposer.decode(pose_embedding, output_type='aa').view(1, -1) if use_vposer else None
             else:
