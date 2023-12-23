@@ -44,8 +44,9 @@ from optimizers import optim_factory
 
 import fitting
 import PIL.Image as pil_img
-from human_body_prior.tools.model_loader import load_vposer
-from human_body_prior.tools.visualization_tools import render_smpl_params, imagearray2file
+from human_body_prior.tools.model_loader import load_model
+from human_body_prior.models.vposer_model import VPoser
+from body_visualizer.tools.vis_tools import render_smpl_params, imagearray2file
 from human_body_prior.body_model.body_model import BodyModel
 from utils import _compute_euler_from_matrix, optimization_visualization
 from sys import platform
@@ -238,7 +239,9 @@ def fit_single_frame(img,
     vposer = None
     if use_vposer:
         vposer_ckpt = osp.expandvars(vposer_ckpt)
-        vposer, _ = load_vposer(vposer_ckpt, vp_model='snapshot')
+        vposer, _ = load_model(vposer_ckpt, model_code=VPoser,
+                              remove_words_in_model_weights='vp_model.',
+                              disable_grad=True)
         vposer = vposer.to(device=device)
         vposer.eval()
         if regression_prior:
