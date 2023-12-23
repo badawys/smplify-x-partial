@@ -265,10 +265,10 @@ def fit_single_frame(img,
                                                          '{}_prior_pose.png'.format(img_name))
             bm = BodyModel(bm_fname=smplx_path).to('cuda')
             if use_vposer:
-                body_pose = vposer.decode(pose_embedding)['pose_body'].contiguous().view(1, -1) if use_vposer else None
+                body_pose = vposer.decode(pose_embedding, output_type='aa')['pose_body'].contiguous().view(1, -1) if use_vposer else None
             else:
                 body_pose = pose_embedding
-            vposer_rendered_img = render_smpl_params(bm, {'pose_body':body_pose}).reshape(1, 1, 1, 400, 400, 3)
+            vposer_rendered_img = render_smpl_params(bm, body_pose.reshape((-1, 21, 3))).reshape(1, 1, 1, 400, 400, 3)
             vposer_rendered_img = imagearray2file(vposer_rendered_img)[0]
             vposer_rendered_img = pil_img.fromarray(vposer_rendered_img)
             vposer_rendered_img.save(vposer_rendered_img_save_path)
