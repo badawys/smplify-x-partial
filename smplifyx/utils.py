@@ -32,7 +32,9 @@ from skimage.io import imread
 from skimage.transform import estimate_transform, warp
 import PIL.Image as pil_img
 import trimesh
-from human_body_prior.tools.visualization_tools import render_smpl_params, imagearray2file
+from body_visualizer.tools.vis_tools import render_smpl_params
+from body_visualizer.tools.vis_tools import imagearray2file
+from body_visualizer.tools.vis_tools import show_image
 from human_body_prior.body_model.body_model import BodyModel
 import pyrender
 from PIL import ImageDraw
